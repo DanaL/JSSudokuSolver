@@ -1,0 +1,19 @@
+body { font-family: 'Lucida Grande',Verdana, Helvetica, Arial, Geneva, sans-serif; color: black; font-size:small; }
+.heading { font-size:110%; }
+h1 { display:inline; }
+
+.main-col { margin-left:150px; margin-right:150px; }
+.text-entry { border: 1px solid LightGray; width: 20px; padding:5px ;}
+.outer-left { border-top: 1px solid #282828; border-left: 1px solid #282828; border-right: 1px solid #282828; border-bottom: 0px; }
+.outer-middle { border-top: 1px solid #282828; border-left: 0px ; border-right: 1px solid #282828; border-bottom: 0px; }
+.outer-right { border-top: 1px solid #282828; border-left: 0px ; border-right: 1px solid #282828; border-bottom: 0px; }
+.outer-bottom-left { border-top: 1px solid #282828; border-left: 1px solid #282828; border-right: 1px solid #282828; border-bottom: 1px solid #282828; }
+.outer-bottom-middle { border-top: 1px solid #282828; border-left: 0px ; border-right: 1px solid #282828; border-bottom: 1px solid #282828; }
+.outer-bottom-right { border-top: 1px solid #282828; border-left: 0px ; border-right: 1px solid #282828; border-bottom: 1px solid #282828; }
+
+.entry-section { width:30%; text-align: right; float:left; }
+.solution-section { width:70%; float:right; }
+
+#entry-table { border: 0px; border-spacing: 0; padding: 0; float:right;}
+
+

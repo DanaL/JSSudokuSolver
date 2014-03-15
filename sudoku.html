@@ -1,0 +1,105 @@
+<html>
+<head>
+	<title>Sudoku Solver</title>
+	<link title="main style" rel="stylesheet" href="sudoku.css" TYPE="text/css">
+	<script src="jquery-2.1.0.min.js"></script>
+</head>
+
+<body>
+<div class="main-col">
+	<h3>Dana's Awesome Sudoku Solver</h3>
+	<p>I've been trying to bone up my skills lately and this little thing is practice for my CSS and JavaScript/jquery skills. Ages ago, I wrote a solution to <a href="http://projecteuler.net/problem=96" target="_blank">Project Euler #96</a>. The exercise was to write a Sudoku solver. I wrote my original solution in Python and figured I would translate it into JavaScript.</p>
+	<div class="entry-section">
+	<table id="entry-table">
+		<tr>
+			<td class="outer-left">
+				<table id="e-00">
+					<tr>
+						<td id="e00r0c0" class="entry"><input type="text" id="t00r0c0" class="text-entry" /></td>
+						<td id="e00r0c1" class="entry"><input type="text" id="t00r0c1" class="text-entry" /></td>
+						<td id="e00r0c2" class="entry"><input type="text" id="t00r0c2" class="text-entry" /></td>
+					</tr>
+					<tr>
+						<td id="e00r1c0" class="entry"><input type="text" id="t00r1c0" class="text-entry" /></td>
+						<td id="e00r1c1" class="entry"><input type="text" id="t00r1c1" class="text-entry" /></td>
+						<td id="e00r1c2" class="entry"><input type="text" id="t00r1c2" class="text-entry" /></td>
+					</tr>
+					<tr>
+						<td id="e00r2c0" class="entry"><input type="text" id="t00r2c0" class="text-entry" /></td>
+						<td id="e00r2c1" class="entry"><input type="text" id="t00r2c1" class="text-entry" /></td>
+						<td id="e00r2c2" class="entry"><input type="text" id="t00r2c2" class="text-entry" /></td>
+					</tr>
+				</table>
+			</td>
+			<td class="outer-middle">
+				<table id="e-01">
+					<tr><td id="e01r0c0" class="entry"><input type="text" id="t01r0c0" class="text-entry" /></td><td id="e01r0c1"  class="entry"><input type="text" id="t01r0c1" class="text-entry" /></td><td id="e01r0c2"  class="entry"><input type="text" id="t01r0c2" class="text-entry" /></td></tr>
+					<tr><td id="e01r1c0"  class="entry"><input type="text" id="t01r1c0" class="text-entry" /></td><td id="e01r1c1"  class="entry"><input type="text" id="t01r1c1" class="text-entry" /></td><td id="e01r1c2"  class="entry"><input type="text" id="t01r1c2" class="text-entry" /></td></tr>
+					<tr><td id="e01r2c0"  class="entry"><input type="text" id="t01r2c0" class="text-entry" /></td><td id="e01r2c1"  class="entry"><input type="text" id="t01r2c1" class="text-entry" /></td><td id="e01r2c2"  class="entry"><input type="text" id="t01r2c2" class="text-entry" /></td></tr>
+				</table>
+			</td>
+			<td class="outer-right">
+				<table id="e-02">
+					<tr><td id="e02r0c0" class="entry"><input type="text" id="t02r0c0" class="text-entry" /></td><td id="e02r0c1" class="entry"><input type="text" id="t02r0c1" class="text-entry" /></td><td id="e02r0c2" class="entry"><input type="text" id="t02r0c2" class="text-entry" /></td></tr>
+					<tr><td id="e02r1c0" class="entry"><input type="text" id="t02r1c0" class="text-entry" /></td><td id="e02r1c1" class="entry"><input type="text" id="t02r1c1" class="text-entry" /></td><td id="e02r1c2" class="entry"><input type="text" id="t02r1c2" class="text-entry" /></td></tr>
+					<tr><td id="e02r2c0" class="entry"><input type="text" id="t02r2c0" class="text-entry" /></td><td id="e02r2c1" class="entry"><input type="text" id="t02r2c1" class="text-entry" /></td><td id="e02r2c2" class="entry"><input type="text" id="t02r2c2" class="text-entry" /></td></tr>
+				</table>
+			</td>
+		</tr>
+
+		<tr>
+			<td class="outer-left">
+				<table id="e-00">
+					<tr><td id="e00r0c0" class="entry"><input type="text" id="t00r0c0" class="text-entry" /></td><td id="e00r0c1" class="entry"><input type="text" id="t00r0c1" class="text-entry" /></td><td id="e00r0c2" class="entry"><input type="text" id="t00r0c2" class="text-entry" /></td></tr>
+					<tr><td id="e00r1c0" class="entry"><input type="text" id="t00r1c0" class="text-entry" /></td><td id="e00r1c1" class="entry"><input type="text" id="t00r1c1" class="text-entry" /></td><td id="e00r1c2" class="entry"><input type="text" id="t00r1c2" class="text-entry" /></td></tr>
+					<tr><td id="e00r2c0" class="entry"><input type="text" id="t00r2c0" class="text-entry" /></td><td id="e00r2c1" class="entry"><input type="text" id="t00r2c1" class="text-entry" /></td><td id="e00r2c2" class="entry"><input type="text" id="t00r2c2" class="text-entry" /></td></tr>
+				</table>
+			</td>
+			<td class="outer-middle">
+				<table id="e-01">
+					<tr><td id="e01r0c0" class="entry"><input type="text" id="t01r0c0" class="text-entry" /></td><td id="e01r0c1" class="entry"><input type="text" id="t01r0c1" class="text-entry" /></td><td id="e01r0c2" class="entry"><input type="text" id="t01r0c2" class="text-entry" /></td></tr>
+					<tr><td id="e01r1c0" class="entry"><input type="text" id="t01r1c0" class="text-entry" /></td><td id="e01r1c1" class="entry"><input type="text" id="t01r1c1" class="text-entry" /></td><td id="e01r1c2" class="entry"><input type="text" id="t01r1c2" class="text-entry" /></td></tr>
+					<tr><td id="e01r2c0" class="entry"><input type="text" id="t01r2c0" class="text-entry" /></td><td id="e01r2c1" class="entry"><input type="text" id="t01r2c1" class="text-entry" /></td><td id="e01r2c2" class="entry"><input type="text" id="t01r2c2" class="text-entry" /></td></tr>
+				</table>
+			</td>
+			<td class="outer-right">
+				<table id="e-02">
+					<tr><td id="e02r0c0" class="entry"><input type="text" id="t02r0c0" class="text-entry" /></td><td id="e02r0c1" class="entry"><input type="text" id="t02r0c1" class="text-entry" /></td><td id="e02r0c2" class="entry"><input type="text" id="t02r0c2" class="text-entry" /></td></tr>
+					<tr><td id="e02r1c0" class="entry"><input type="text" id="t02r1c0" class="text-entry" /></td><td id="e02r1c1" class="entry"><input type="text" id="t02r1c1" class="text-entry" /></td><td id="e02r1c2" class="entry"><input type="text" id="t02r1c2" class="text-entry" /></td></tr>
+					<tr><td id="e02r2c0" class="entry"><input type="text" id="t02r2c0" class="text-entry" /></td><td id="e02r2c1" class="entry"><input type="text" id="t02r2c1" class="text-entry" /></td><td id="e02r2c2" class="entry"><input type="text" id="t02r2c2" class="text-entry" /></td></tr>
+				</table>
+			</td>
+		</tr>
+
+		<tr>
+			<td class="outer-bottom-left">
+				<table id="e-00">
+					<tr><td id="e00r0c0" class="entry"><input type="text" id="t00r0c0" class="text-entry" /></td><td id="e00r0c1" class="entry"><input type="text" id="t00r0c1" class="text-entry" /></td><td id="e00r0c2" class="entry"><input type="text" id="t00r0c2" class="text-entry" /></td></tr>
+					<tr><td id="e00r1c0" class="entry"><input type="text" id="t00r1c0" class="text-entry" /></td><td id="e00r1c1" class="entry"><input type="text" id="t00r1c1" class="text-entry" /></td><td id="e00r1c2" class="entry"><input type="text" id="t00r1c2" class="text-entry" /></td></tr>
+					<tr><td id="e00r2c0" class="entry"><input type="text" id="t00r2c0" class="text-entry" /></td><td id="e00r2c1" class="entry"><input type="text" id="t00r2c1" class="text-entry" /></td><td id="e00r2c2" class="entry"><input type="text" id="t00r2c2" class="text-entry" /></td></tr>
+				</table>
+			</td>
+			<td class="outer-bottom-middle">
+				<table id="e-01">
+					<tr><td id="e01r0c0" class="entry"><input type="text" id="t01r0c0" class="text-entry" /></td><td id="e01r0c1" class="entry"><input type="text" id="t01r0c1" class="text-entry" /></td><td id="e01r0c2" class="entry"><input type="text" id="t01r0c2" class="text-entry" /></td></tr>
+					<tr><td id="e01r1c0" class="entry"><input type="text" id="t01r1c0" class="text-entry" /></td><td id="e01r1c1" class="entry"><input type="text" id="t01r1c1" class="text-entry" /></td><td id="e01r1c2" class="entry"><input type="text" id="t01r1c2" class="text-entry" /></td></tr>
+					<tr><td id="e01r2c0" class="entry"><input type="text" id="t01r2c0" class="text-entry" /></td><td id="e01r2c1" class="entry"><input type="text" id="t01r2c1" class="text-entry" /></td><td id="e01r2c2" class="entry"><input type="text" id="t01r2c2" class="text-entry" /></td></tr>
+				</table>
+			</td>
+			<td class="outer-bottom-right">
+				<table id="e-02">
+					<tr><td id="e02r0c0" class="entry"><input type="text" id="t02r0c0" class="text-entry" /></td><td id="e02r0c1" class="entry"><input type="text" id="t02r0c1" class="text-entry" /></td><td id="e02r0c2" class="entry"><input type="text" id="t02r0c2" class="text-entry" /></td></tr>
+					<tr><td id="e02r1c0" class="entry"><input type="text" id="t02r1c0" class="text-entry" /></td><td id="e02r1c1" class="entry"><input type="text" id="t02r1c1" class="text-entry" /></td><td id="e02r1c2" class="entry"><input type="text" id="t02r1c2" class="text-entry" /></td></tr>
+					<tr><td id="e02r2c0" class="entry"><input type="text" id="t02r2c0" class="text-entry" /></td><td id="e02r2c1" class="entry"><input type="text" id="t02r2c1" class="text-entry" /></td><td id="e02r2c2" class="entry"><input type="text" id="t02r2c2" class="text-entry" /></td></tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+	<button>Solve puzzle!</button>
+</div>
+<div class="solution-section">
+	Table with solution will go here.
+</div>
+</div>
+</body>
+</html>
