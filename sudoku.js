@@ -1,11 +1,46 @@
+function Grid() {
+	this.grid = new Array();
+	for (var j = 0; j < 9; j++) {
+		this.grid[j] = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+	}
+
+	this.setCell = function(r, c, value) {
+		this.grid[r][c] = value;
+	}
+
+	this.getCell = function(r, c) {
+		return this.grid[r][c];
+	}
+
+	this.dump = function() {
+		var g = "";
+		for (var r = 0; r < 9; r++) {
+			var txt = "";
+			for (var c = 0; c < 9; c++) {
+				txt += this.grid[r][c] + " ";
+			}
+			g += txt + "\n";
+		}
+
+		return g;
+	}
+}
+
+function getCell(table, row, col) {
+	var cell = "r" + row + "c" + col;
+	var sel = table + " #" + cell + " :first-child";
+	
+	return $(sel).val();
+}
+
 function writeCell(table, row, col, value) {
 	if (isNaN(value) || value < 1 || value > 9)
 		return;
 
 	if (row >= 0 &&  row < 9 && col >= 0 && col < 9) {
 		var cell = "r" + row + "c" + col;
-		var s = table + " #" + cell + " :first-child";
-		$(s).val(value);
+		var sel = table + " #" + cell + " :first-child";
+		$(sel).val(value);
 	}
 }
 
@@ -43,4 +78,13 @@ function initializeEntryTable() {
 	writeCell("#entry-table", 8, 2, 5);
 	writeCell("#entry-table", 8, 4, 1);
 	writeCell("#entry-table", 8, 6, 3);
+}
+
+function solvePuzzle() {
+	grid = new Grid();
+	grid.setCell(0, 0, 9);
+	grid.setCell(0, 8, 8);
+	grid.setCell(8, 8, 4);
+	grid.setCell(4, 4, 1);
+	alert(grid.dump());
 }
