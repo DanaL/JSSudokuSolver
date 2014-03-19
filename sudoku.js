@@ -43,6 +43,8 @@ function Board() {
 
 	this.setCell = function(row, col, value) {
 		this.board[row][col] = value;
+		if (value != 0)
+			this.possibilities[row][col] = [];
 
 		// Clear out the possibilities
 		for (var r = 0; r < 9; r++) {
@@ -146,25 +148,21 @@ function Board() {
 	}
 }
 
-function getCell(table, row, col) {
+function cellSelector(table, row, col) {
 	var cell = "r" + row + "c" + col;
-	var sel = table + " #" + cell + " :first-child";
-	
-	return $(sel).val();
+	return sel = table + " #" + cell + " :first-child";
+}
+
+function getCell(table, row, col) {
+	return $(cellSelector(table, row, col)).val();
 }
 
 function clearError(table, row, col) {
-	var cell = "r" + row + "c" + col;
-	var sel = table + " #" + cell + " :first-child";
-
-	$(sel).removeClass("error");
+	$(cellSelector(table, row, col)).removeClass("error");
 }
 
-function markError(table, row, col) {
-	var cell = "r" + row + "c" + col;
-	var sel = table + " #" + cell + " :first-child";
-
-	$(sel).addClass("error");	
+function markError(table, row, col) {	
+	$(cellSelector(table, row, col)).addClass("error");	
 }
 
 function writeCell(table, row, col, value) {
@@ -172,9 +170,7 @@ function writeCell(table, row, col, value) {
 		return;
 
 	if (row >= 0 &&  row < 9 && col >= 0 && col < 9) {
-		var cell = "r" + row + "c" + col;
-		var sel = table + " #" + cell + " :first-child";
-		$(sel).val(value);
+		$(cellSelector(table, row, col)).val(value);
 	}
 }
 
@@ -214,6 +210,25 @@ function initializeEntryTable() {
 	writeCell("#entry-table", 8, 6, 3);
 }
 
+// Look for any squares that have only a single possibility
+function checkForSingles(board) {
+	for (var r = 0; r < 9; r++) {
+		for (var c = 0; c < 9; c++) {
+			if (board.possibilities[r][c].length == 1) {
+				return [r, c, board.possibilities[r][c][0]];
+			}
+		}
+	}
+
+	return [];
+}
+
+function doMove(board, move) {
+	writeCell("#entry-table", move[0], move[1], move[2]);
+	$(cellSelector("#entry-table", move[0], move[1])).addClass("marked");
+	board.setCell(move[0], move[1], move[2]);
+}
+
 function solvePuzzle() {
 	board = new Board();
 
@@ -237,6 +252,18 @@ function solvePuzzle() {
 		});
 		alert("There were errors in the entered puzzle.");
 	}
+	else {
+		while (true) {
+			found_move = false;
 
-	alert(board.possibilities[1][6]);
+			var move = checkForSingles(board);
+			if (move.length > 0) {
+				found_move = true;
+				doMove(board, move);
+			}
+
+			if (!found_move)
+				break;
+		}
+	}
 }
