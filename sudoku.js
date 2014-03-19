@@ -29,7 +29,7 @@ function Grid() {
 		var finished = true;
 		var errors = [];
 		
-		/* Check each row */
+		// Check each row 
 		for (var r = 0; r < 9; r++) {
 			sqrs = { 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0};
 			for (var c = 0; c < 9; c++) {
@@ -44,7 +44,7 @@ function Grid() {
 			}
 		}
 
-		/* Check the columns */
+		// Check the columns 
 		for (var c = 0; c < 9; c++) {
 			sqrs = { 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0};
 			for (var r = 0; r < 9; r++) {
@@ -59,7 +59,7 @@ function Grid() {
 			}
 		}
 
-		/* Check the nine sub-sections */
+		// Check the nine sub-sections 
 		var start_r = 0;
 		while (start_r < 9) {
 			var start_c = 0;
@@ -119,7 +119,7 @@ function writeCell(table, row, col, value) {
 }
 
 function initializeEntryTable() {
-	/* This is the example puzzle provided in the description of Euler #96 */
+	// This is the example puzzle provided in the description of Euler #96
 	writeCell("#entry-table", 0, 2, 3);
 	writeCell("#entry-table", 0, 4, 2);
 	writeCell("#entry-table", 0, 6, 6);
@@ -170,9 +170,9 @@ function solvePuzzle() {
 
 	var result = grid.checkGrid();
 	if (result["errors"].length > 0) {
-		for (var x = 0; x < result["errors"].length; x ++) {
-			r = parseInt(result["errors"][x].substring(5, 7));
-			c = parseInt(result["errors"][x].substring(8));
+		for (var x = 0; x < result.errors.length; x ++) {
+			r = parseInt(result.errors[x].substring(5, 7));
+			c = parseInt(result.errors[x].substring(8));
 			markError("#entry-table", r, c);
 		}
 		alert("There were errors in the entered puzzle.");
