@@ -1,15 +1,15 @@
-function Grid() {
-	this.grid = new Array();
+function Board() {
+	this.board = new Array();
 	for (var j = 0; j < 9; j++) {
-		this.grid[j] = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+		this.board[j] = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 	}
 
 	this.setCell = function(r, c, value) {
-		this.grid[r][c] = value;
+		this.board[r][c] = value;
 	}
 
 	this.getCell = function(r, c) {
-		return this.grid[r][c];
+		return this.board[r][c];
 	}
 
 	this.dump = function() {
@@ -17,7 +17,7 @@ function Grid() {
 		for (var r = 0; r < 9; r++) {
 			var txt = "";
 			for (var c = 0; c < 9; c++) {
-				txt += this.grid[r][c] + " ";
+				txt += this.board[r][c] + " ";
 			}
 			g += txt + "\n";
 		}
@@ -33,11 +33,11 @@ function Grid() {
 		for (var r = 0; r < 9; r++) {
 			sqrs = { 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0};
 			for (var c = 0; c < 9; c++) {
-				if (this.grid[r][c] == 0)
+				if (this.board[r][c] == 0)
 					finished = false;
 				else {
-					sqrs[this.grid[r][c]] += 1;
-					if (sqrs[this.grid[r][c]] > 1) {
+					sqrs[this.board[r][c]] += 1;
+					if (sqrs[this.board[r][c]] > 1) {
 						errors.push("Error " + r + "," + c);
 					}
 				}
@@ -48,11 +48,11 @@ function Grid() {
 		for (var c = 0; c < 9; c++) {
 			sqrs = { 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0};
 			for (var r = 0; r < 9; r++) {
-				if (this.grid[r][c] == 0)
+				if (this.board[r][c] == 0)
 					finished = false;
 				else {
-					sqrs[this.grid[r][c]] += 1;
-					if (sqrs[this.grid[r][c]] > 1) {
+					sqrs[this.board[r][c]] += 1;
+					if (sqrs[this.board[r][c]] > 1) {
 						errors.push("Error " + r + "," + c);
 					}
 				}
@@ -67,11 +67,11 @@ function Grid() {
 				sqrs = { 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0};
 				for (var r = start_r; r <= start_r + 2; r++) {
 					for (var c = start_c; c <= start_c + 2; c++) {
-						if (this.grid[r][c] == 0)
+						if (this.board[r][c] == 0)
 							finished = false;
 						else {
-							sqrs[this.grid[r][c]] += 1;
-							if (sqrs[this.grid[r][c]] > 1) {
+							sqrs[this.board[r][c]] += 1;
+							if (sqrs[this.board[r][c]] > 1) {
 								errors.push("Error " + r + "," + c);
 							}
 						}
@@ -155,7 +155,7 @@ function initializeEntryTable() {
 }
 
 function solvePuzzle() {
-	grid = new Grid();
+	board = new Board();
 
 	for (var r = 0; r < 9; r++) {
 		for (var c = 0; c < 9; c++) {
@@ -163,12 +163,12 @@ function solvePuzzle() {
 			if (isNaN(v))
 				v = 0;
 
-			grid.setCell(r, c, v);
+			board.setCell(r, c, v);
 			clearError("#entry-table", r, c);
 		}
 	}
 
-	var result = grid.checkGrid();
+	var result = board.checkGrid();
 	if (result["errors"].length > 0) {
 		for (var x = 0; x < result.errors.length; x ++) {
 			r = parseInt(result.errors[x].substring(5, 7));
