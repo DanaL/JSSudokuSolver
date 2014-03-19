@@ -157,8 +157,9 @@ function getCell(table, row, col) {
 	return $(cellSelector(table, row, col)).val();
 }
 
-function clearError(table, row, col) {
+function clearStyles(table, row, col) {
 	$(cellSelector(table, row, col)).removeClass("error");
+	$(cellSelector(table, row, col)).removeClass("marked");
 }
 
 function markError(table, row, col) {	
@@ -166,12 +167,8 @@ function markError(table, row, col) {
 }
 
 function writeCell(table, row, col, value) {
-	if (isNaN(value) || value < 1 || value > 9)
-		return;
-
-	if (row >= 0 &&  row < 9 && col >= 0 && col < 9) {
-		$(cellSelector(table, row, col)).val(value);
-	}
+	if (value == '' || (!isNaN(value) && value >= 1 && value <= 9))
+		$(cellSelector(table, row, col)).val(value);	
 }
 
 function initializeEntryTable() {
@@ -229,6 +226,15 @@ function doMove(board, move) {
 	board.setCell(move[0], move[1], move[2]);
 }
 
+function clearPuzzle() {
+	for (var r = 0; r < 9; r++) {
+		for (var c = 0; c < 9; c++) {
+			clearStyles("#entry-table", r, c);
+			writeCell("#entry-table", r, c, '');
+		}
+	}
+}
+
 function solvePuzzle() {
 	board = new Board();
 
@@ -239,7 +245,7 @@ function solvePuzzle() {
 				v = 0;
 
 			board.setCell(r, c, v);
-			clearError("#entry-table", r, c);
+			clearStyles("#entry-table", r, c)			
 		}
 	}
 
