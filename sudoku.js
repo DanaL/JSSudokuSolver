@@ -4,8 +4,67 @@ function Board() {
 		this.board[j] = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 	}
 
-	this.setCell = function(r, c, value) {
-		this.board[r][c] = value;
+	this.possibilities = new Array();
+	for (var r = 0; r < 9; r++) {
+		this.possibilities[r] = new Array();
+		for (var c = 0; c < 9; c++) {
+			this.possibilities[r][c] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+		}
+	}
+
+	// Given a row and column, return the indices of the board that are in 
+	// the same section of the board.
+	this.getSectionIndices = function(row, col) {
+		if (row < 3) {
+			if (col < 3) 
+				return [[0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]];
+			else if (col < 6)
+				return [[0, 3], [0, 4], [0, 5], [1, 3], [1, 4], [1, 5], [2, 3], [2, 4], [2, 5]];
+			else
+				return [[0, 6], [0, 7], [0, 8], [1, 6], [1, 7], [1, 8], [2, 6], [2, 7], [2, 8]];
+		}
+		else if (row < 6) {
+			if (col < 3) 
+				return [[3, 0], [3, 1], [3, 2], [4, 0], [4, 1], [4, 2], [5, 0], [5, 1], [5, 2]];
+			else if (col < 6)
+				return [[3, 3], [3, 4], [3, 5], [4, 3], [4, 4], [4, 5], [5, 3], [5, 4], [5, 5]];
+			else
+				return [[3, 6], [3, 7], [3, 8], [4, 6], [4, 7], [4, 8], [5, 6], [5, 7], [5, 8]];
+		}
+		else {
+			if (col < 3) 
+				return [[6, 0], [6, 1], [6, 2], [7, 0], [7, 1], [7, 2], [8, 0], [8, 1], [8, 2]];
+			else if (col < 6)
+				return [[6, 3], [6, 4], [6, 5], [7, 3], [7, 4], [7, 5], [8, 3], [8, 4], [8, 5]];
+			else
+				return [[6, 6], [6, 7], [6, 8], [7, 6], [7, 7], [7, 8], [8, 6], [8, 7], [8, 8]];
+		}
+	}
+
+	this.setCell = function(row, col, value) {
+		this.board[row][col] = value;
+
+		// Clear out the possibilities
+		for (var r = 0; r < 9; r++) {
+			var x = this.possibilities[r][col].indexOf(value);
+			if (x > -1)
+				this.possibilities[r][col].splice(x, 1);
+		}
+
+		for (var c = 0; c < 9; c++) {
+			var x = this.possibilities[row][c].indexOf(value);
+			if (x > -1)
+				this.possibilities[row][c].splice(x, 1);
+		}
+
+		var indices = this.getSectionIndices(row, col);
+		for (var j = 0; j < indices.length; j++) {
+			coord = indices[j];			
+			var p = this.possibilities[coord[0]][coord[1]];
+			var x = p.indexOf(value);
+			if (x > -1)
+				p.splice(x, 1);
+		}
 	}
 
 	this.getCell = function(r, c) {
@@ -82,6 +141,7 @@ function Board() {
 			
 			start_r += 3;
 		}
+
 		return { "finished" : finished, "errors" : errors }
 	}
 }
@@ -177,4 +237,6 @@ function solvePuzzle() {
 		});
 		alert("There were errors in the entered puzzle.");
 	}
+
+	alert(board.possibilities[1][6]);
 }
