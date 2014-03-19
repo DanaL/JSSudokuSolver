@@ -24,6 +24,66 @@ function Grid() {
 
 		return g;
 	}
+
+	this.checkGrid = function() {
+		var finished = true;
+		var errors = [];
+		
+		/* Check each row */
+		for (var r = 0; r < 9; r++) {
+			sqrs = { 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0};
+			for (var c = 0; c < 9; c++) {
+				if (this.grid[r][c] == 0)
+					finished = false;
+				else {
+					sqrs[this.grid[r][c]] += 1;
+					if (sqrs[this.grid[r][c]] > 1) {
+						errors.push("Error " + r + "," + c);
+					}
+				}
+			}
+		}
+
+		/* Check the columns */
+		for (var c = 0; c < 9; c++) {
+			sqrs = { 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0};
+			for (var r = 0; r < 9; r++) {
+				if (this.grid[r][c] == 0)
+					finished = false;
+				else {
+					sqrs[this.grid[r][c]] += 1;
+					if (sqrs[this.grid[r][c]] > 1) {
+						errors.push("Error " + r + "," + c);
+					}
+				}
+			}
+		}
+
+		/* Check the nine sub-sections */
+		var start_r = 0;
+		while (start_r < 9) {
+			var start_c = 0;
+			while (start_c < 9) {
+				sqrs = { 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0};
+				for (var r = start_r; r <= start_r + 2; r++) {
+					for (var c = start_c; c <= start_c + 2; c++) {
+						if (this.grid[r][c] == 0)
+							finished = false;
+						else {
+							sqrs[this.grid[r][c]] += 1;
+							if (sqrs[this.grid[r][c]] > 1) {
+								errors.push("Error " + r + "," + c);
+							}
+						}
+					}
+				}
+				start_c += 3;
+			}
+			
+			start_r += 3;
+		}
+		return { "finished" : finished, "errors" : errors }
+	}
 }
 
 function getCell(table, row, col) {
@@ -31,6 +91,20 @@ function getCell(table, row, col) {
 	var sel = table + " #" + cell + " :first-child";
 	
 	return $(sel).val();
+}
+
+function clearError(table, row, col) {
+	var cell = "r" + row + "c" + col;
+	var sel = table + " #" + cell + " :first-child";
+
+	$(sel).removeClass("error");
+}
+
+function markError(table, row, col) {
+	var cell = "r" + row + "c" + col;
+	var sel = table + " #" + cell + " :first-child";
+
+	$(sel).addClass("error");	
 }
 
 function writeCell(table, row, col, value) {
@@ -82,9 +156,25 @@ function initializeEntryTable() {
 
 function solvePuzzle() {
 	grid = new Grid();
-	grid.setCell(0, 0, 9);
-	grid.setCell(0, 8, 8);
-	grid.setCell(8, 8, 4);
-	grid.setCell(4, 4, 1);
-	alert(grid.dump());
+
+	for (var r = 0; r < 9; r++) {
+		for (var c = 0; c < 9; c++) {
+			var v = parseInt(getCell("#entry-table", r, c));
+			if (isNaN(v))
+				v = 0;
+
+			grid.setCell(r, c, v);
+			clearError("#entry-table", r, c);
+		}
+	}
+
+	var result = grid.checkGrid();
+	if (result["errors"].length > 0) {
+		for (var x = 0; x < result["errors"].length; x ++) {
+			r = parseInt(result["errors"][x].substring(5, 7));
+			c = parseInt(result["errors"][x].substring(8));
+			markError("#entry-table", r, c);
+		}
+		alert("There were errors in the entered puzzle.");
+	}
 }
