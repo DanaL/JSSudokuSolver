@@ -169,12 +169,12 @@ function solvePuzzle() {
 	}
 
 	var result = board.checkGrid();
-	if (result["errors"].length > 0) {
-		for (var x = 0; x < result.errors.length; x ++) {
-			r = parseInt(result.errors[x].substring(5, 7));
-			c = parseInt(result.errors[x].substring(8));
+	if (result.errors.length > 0) {
+		result.errors.map(function(err) {
+			r = parseInt(err.substring(5, 7));
+			c = parseInt(err.substring(8));
 			markError("#entry-table", r, c);
-		}
+		});
 		alert("There were errors in the entered puzzle.");
 	}
 }
